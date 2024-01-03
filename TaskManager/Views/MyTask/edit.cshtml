@@ -1,0 +1,27 @@
+﻿@model MyTask
+
+<div class="border p-3 mt-4">
+    <div row="row pb-3">
+        <h2 class="test-primary">Task Details</h2>
+    </div>
+    <form method="post" asp-controller="MyTask" asp-action="Edit">
+        <div class="mb-3">
+            <label asp-for="Title"></label>
+            <input asp-for="Title" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description"></label>
+            <input asp-for="Description" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="DueDate"></label>
+            <input asp-for="DueDate" class="form-control" />
+        </div>
+        <input type="hidden" asp-for="Id" /> <!-- Hidden field for Task ID -->
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a asp-controller="MyTask" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete Task</a>
+            <a asp-controller="MyTask" asp-action="Index" class="btn btn-secondary">Back</a>
+        </div>
+    </form>
+</div>

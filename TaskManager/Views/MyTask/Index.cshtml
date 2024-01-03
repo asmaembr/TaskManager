@@ -1,0 +1,85 @@
+﻿@model IEnumerable<MyTask>
+
+@{
+    ViewData["Title"] = "Tasks";
+}
+
+<div class="container align-items-center p-3 ">
+        <div class="col-20 text-center">
+            <h1>List Of Tasks</h1>
+        </div>
+    <div class="col-20 text-center">
+            <a asp-controller="MyTask" asp-action="Create" class="btn btn-primary btn-lg "style="background-color : rebeccapurple; border :none">Create New Task</a>
+        </div>
+    </div>
+
+
+<style>
+    .content-table{
+        border-collapse:collapse;
+        margin:25px 0;
+        font-size:0.9em;
+        min-width:400px;
+        background-color :white;
+        color:black;
+        text-align: center;
+        border-radius: 20px 20px 20px 20px;
+        overflow: hidden;
+        box-shadow : 0 0 20px rgba(0,0,0,0.15);
+    }
+
+
+    .content-table thead tr {
+        background-color : rebeccapurple;
+        color:white;
+        font-weight : bold;
+        font-size: 18px;
+
+
+    }
+    .content-table th,
+    .content-table td{
+        padding: 12px 15px;
+
+    }
+    .content-table tbody tr{
+            font-weight:600;
+        border-bottom: 1px solid #f3f3f3;
+
+    }
+    .content-table tbody tr:nth-of-type(even){
+                background-color: #f3f3f3;
+    }
+    .content-table tbody tr:last-of-type{
+                border-bottom: 10px solid rebeccapurple;
+    }
+
+</style>
+
+<h1>Tasks</h1>
+<table class="content-table" style="width:100%">
+    <thead>
+        <tr>
+            <th>Task Title</th>
+            <th>Description</th>
+            <th>Due Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var task in Model.OrderBy(t => Math.Abs((DateTime.Now - t.DueDate).TotalDays)))
+        {
+            <tr>
+                <td>@task.Title</td>
+                <td>@task.Description</td>
+                <td>@task.DueDate</td>
+                <td>
+                    <form method="post" asp-controller="MyTask" asp-action="Delete" asp-route-id="@task.Id" style="display: inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    <a asp-controller="MyTask" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-primary">Modify</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
