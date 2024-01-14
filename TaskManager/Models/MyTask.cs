@@ -8,6 +8,7 @@ namespace TaskManager.Models
 
         [Key]
         public int Id { get; set; }
+        public int Iduser { get; set; }
 
         [Required]
         public string? Title { get; set; }
@@ -18,11 +19,12 @@ namespace TaskManager.Models
         {
         }
 
-        public MyTask(string? title, string? description , DateTime dueDate)
+        public MyTask(string? title, string? description , DateTime dueDate,int user)
         {
             title = Title;
             description = Description;
             dueDate = DueDate;
+            Iduser = user;
         }
     
     }

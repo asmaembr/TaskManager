@@ -7,17 +7,28 @@ namespace TaskManager.Controllers
     public class MyTaskController : Controller
     {
         private readonly ApplicationDBContext _db;
+
+        private int user;
         public MyTaskController(ApplicationDBContext db)
         {
             _db = db;
+     
         }
 
 
 
         public IActionResult Index()
         {
+            user = TempData.ContainsKey("UserId") ? (int)TempData["UserId"] : 0;
             var objTaskList = _db.Tasks.ToList();
-            return View(objTaskList);
+            var userTask = new List<MyTask>();
+            foreach (var item in objTaskList)
+            {
+                if(item.Iduser == user) { userTask.Add(item); }
+                
+            }
+
+            return View(userTask);
             //return View();
         }
 
@@ -29,9 +40,9 @@ namespace TaskManager.Controllers
 
         //POST
         [HttpPost]
-        public IActionResult Create(Models.MyTask T)
+        public IActionResult Create(MyTask T)
         {
-            _db.Tasks.Add(T);
+            _db.Tasks.Add(new MyTask( T.Title, T.Description,T.DueDate,user));
             _db.SaveChanges();
             return RedirectToAction("Index");
             //return View(Emp);
